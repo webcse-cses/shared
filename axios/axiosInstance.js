@@ -97,8 +97,8 @@ const getStorage = () => {
         // Try to get token with the exact key or fallback to admin_auth_token
         if (key === "token") {
           return (
-            localStorage.getItem("admin_auth_token") ||
-            localStorage.getItem(key)
+            localStorage.getItem(key) ||
+            localStorage.getItem("admin_auth_token")
           );
         }
         return localStorage.getItem(key);
