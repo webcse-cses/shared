@@ -5,9 +5,9 @@ export const UserType = {
   STUDENT: "STUDENT",
 };
 
-// export const PermissionLevel = {
-//   [UserType.ADMIN]: 4,
-//   [UserType.PROFESSOR]: 3,
-//   [UserType.ALUMNI]: 2,
-//   [UserType.STUDENT]: 1,
-// };
+export const DegreeType = {
+  BTECH: "B.Tech",
+  MTech: "M.Tech",
+  PhD: "PhD",
+  Other: "Other",
+};

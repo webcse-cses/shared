@@ -1,23 +1,23 @@
-import axios from 'axios';
+import axios from "axios";
 
 // Helper function to get environment variables that works in both Node.js and Vite
-const getEnv = (key, defaultValue) => {
+export const getEnv = (key, defaultValue) => {
   // Check if we're in a Vite client environment
-  if (typeof import.meta !== 'undefined' && import.meta.env) {
+  if (typeof import.meta !== "undefined" && import.meta.env) {
     return import.meta.env[key] || defaultValue;
   }
   // Otherwise use Node.js process.env
-  else if (typeof process !== 'undefined' && process.env) {
+  else if (typeof process !== "undefined" && process.env) {
     // In Node.js, load environment variables from .env file
     try {
       // Dynamic import for dotenv (only in Node environment)
       // This is a side effect to ensure dotenv is loaded in Node environments
       if (!globalThis.__dotenvLoaded) {
-        import('dotenv').then(dotenv => dotenv.config());
+        import("dotenv").then((dotenv) => dotenv.config());
         globalThis.__dotenvLoaded = true;
       }
     } catch (err) {
-      console.warn('Error loading dotenv:', err);
+      console.warn("Error loading dotenv:", err);
     }
     return process.env[key] || defaultValue;
   }
@@ -26,96 +26,122 @@ const getEnv = (key, defaultValue) => {
 };
 
 // Get the base URL for each service from environment variables
-const ADMIN_SERVICE_URI = getEnv('VITE_APP_ADMIN_SERVICE_URI', 'http://localhost:5001/');
-const AUTH_SERVICE_URI = getEnv('VITE_APP_AUTH_SERVICE_URI', 'http://localhost:5002/');
-const BUFFERED_READER_SERVICE_URI = getEnv('VITE_APP_BUFFERED_READER_SERVICE_URI', 'http://localhost:5003/');
-const CSES_SERVICE_URI = getEnv('VITE_APP_CSES_SERVICE_URI', 'http://localhost:5004/');
-const SARC_SERVICE_URI = getEnv('VITE_APP_SARC_SERVICE_URI', 'http://localhost:5005/');
+const ADMIN_SERVICE_URI = getEnv(
+  "VITE_APP_ADMIN_SERVICE_URI",
+  "http://localhost:5001/"
+);
+const AUTH_SERVICE_URI = getEnv(
+  "VITE_APP_AUTH_SERVICE_URI",
+  "http://localhost:5002/"
+);
+const BUFFERED_READER_SERVICE_URI = getEnv(
+  "VITE_APP_BUFFERED_READER_SERVICE_URI",
+  "http://localhost:5003/"
+);
+const CSES_SERVICE_URI = getEnv(
+  "VITE_APP_CSES_SERVICE_URI",
+  "http://localhost:5004/"
+);
+const SARC_SERVICE_URI = getEnv(
+  "VITE_APP_SARC_SERVICE_URI",
+  "http://localhost:5005/"
+);
 
 // Create Axios instances for each service
 const adminAPI = axios.create({
-    baseURL: ADMIN_SERVICE_URI,
-    timeout: 10000, // 10 seconds timeout
-    headers: {
-        'Content-Type': 'application/json',
-    }
+  baseURL: ADMIN_SERVICE_URI,
+  timeout: 10000, // 10 seconds timeout
+  headers: {
+    "Content-Type": "application/json",
+  },
 });
 
 const authAPI = axios.create({
-    baseURL: AUTH_SERVICE_URI,
-    timeout: 10000,
-    headers: {
-        'Content-Type': 'application/json',
-    }
+  baseURL: AUTH_SERVICE_URI,
+  timeout: 10000,
+  headers: {
+    "Content-Type": "application/json",
+  },
 });
 
 const bufferedReaderAPI = axios.create({
-    baseURL: BUFFERED_READER_SERVICE_URI,
-    timeout: 10000,
-    headers: {
-        'Content-Type': 'application/json',
-    }
+  baseURL: BUFFERED_READER_SERVICE_URI,
+  timeout: 10000,
+  headers: {
+    "Content-Type": "application/json",
+  },
 });
 
 const csesAPI = axios.create({
-    baseURL: CSES_SERVICE_URI,
-    timeout: 10000,
-    headers: {
-        'Content-Type': 'application/json',
-    }
+  baseURL: CSES_SERVICE_URI,
+  timeout: 10000,
+  headers: {
+    "Content-Type": "application/json",
+  },
 });
 
 const sarcAPI = axios.create({
-    baseURL: SARC_SERVICE_URI,
-    timeout: 10000,
-    headers: {
-        'Content-Type': 'application/json',
-    }
+  baseURL: SARC_SERVICE_URI,
+  timeout: 10000,
+  headers: {
+    "Content-Type": "application/json",
+  },
 });
 
 // Get storage based on environment
 const getStorage = () => {
   // Browser environment
-  if (typeof localStorage !== 'undefined') {
+  if (typeof localStorage !== "undefined") {
     return {
-      getItem: (key) => localStorage.getItem(key),
-      removeItem: (key) => localStorage.removeItem(key)
+      getItem: (key) => {
+        // Try to get token with the exact key or fallback to admin_auth_token
+        if (key === "token") {
+          return (
+            localStorage.getItem("admin_auth_token") ||
+            localStorage.getItem(key)
+          );
+        }
+        return localStorage.getItem(key);
+      },
+      removeItem: (key) => localStorage.removeItem(key),
     };
   }
   // Node.js environment
   return {
     getItem: () => null,
-    removeItem: () => {}
+    removeItem: () => {},
   };
 };
 
 // Interceptor for handling requests
 const setupInterceptors = (instance) => {
-    instance.interceptors.request.use(
-        (config) => {
-            // Get token from storage if exists
-            const storage = getStorage();
-            const token = storage.getItem('token');
-            
-            if (token) {
-                config.headers.Authorization = `Bearer ${token}`;
-            }
-            return config;
-        },
-        (error) => Promise.reject(error)
-    );
+  instance.interceptors.request.use(
+    (config) => {
+      // Get token from storage if exists
+      const storage = getStorage();
+      const token = storage.getItem("token");
 
-    instance.interceptors.response.use(
-        (response) => response,
-        (error) => {
-            if (error.response && error.response.status === 401) {
-                const storage = getStorage();
-                storage.removeItem('token');
-                // Redirect to login page or show notification (if in browser)
-            }
-            return Promise.reject(error);
-        }
-    );
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+      // Add this to the request interceptor in axiosInstance.js
+
+      return config;
+    },
+    (error) => Promise.reject(error)
+  );
+
+  instance.interceptors.response.use(
+    (response) => response,
+    (error) => {
+      if (error.response && error.response.status === 401) {
+        const storage = getStorage();
+        storage.removeItem("token");
+        // Redirect to login page or show notification (if in browser)
+      }
+      return Promise.reject(error);
+    }
+  );
 };
 
 // Setup interceptors for all instances

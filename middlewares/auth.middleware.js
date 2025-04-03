@@ -57,6 +57,8 @@ export const verifyToken = (token) => {
 export const authenticate = (req, res, next) => {
   try {
     const authHeader = req.headers.authorization;
+    console.log("Auth Header: ", authHeader);
+    
 
     if (!authHeader || !authHeader.startsWith(`${authConfig.tokenPrefix} `)) {
       return res
