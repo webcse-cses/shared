@@ -131,17 +131,26 @@ const setupInterceptors = (instance) => {
     (error) => Promise.reject(error)
   );
 
-  instance.interceptors.response.use(
-    (response) => response,
-    (error) => {
-      if (error.response && error.response.status === 401) {
-        const storage = getStorage();
-        storage.removeItem("token");
-        // Redirect to login page or show notification (if in browser)
-      }
-      return Promise.reject(error);
-    }
-  );
+  // This was intented to remove the token when the user is not authorized to access the endpoint
+  // instance.interceptors.response.use(
+  //   (response) => response,
+  //   (error) => {
+  //     // Don't automatically log out for publication-related errors
+  //     if (error.response && error.response.status === 401) {
+  //       // Only remove token for auth-related endpoints
+  //       // Exclude specific publication endpoints from automatic logout
+  //       const url = error.config?.url || "";
+  //       const isPublicationEndpoint = url.includes("/publication/");
+
+  //       if (!isPublicationEndpoint) {
+  //         const storage = getStorage();
+  //         storage.removeItem("token");
+  //         // Redirect to login page or show notification (if in browser)
+  //       }
+  //     }
+  //     return Promise.reject(error);
+  //   }
+  // );
 };
 
 // Setup interceptors for all instances

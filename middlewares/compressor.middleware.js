@@ -84,7 +84,8 @@ export const compressionMiddleware = async (req, res, next) => {
         }
       }
     }
-
+    console.log("Compression middleware completed");
+    
     next();
   } catch (error) {
     console.error("Error in compression middleware:", error);
