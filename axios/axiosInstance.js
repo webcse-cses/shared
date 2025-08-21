@@ -50,7 +50,7 @@ const SARC_SERVICE_URI = getEnv(
 // Create Axios instances for each service
 const adminAPI = axios.create({
   baseURL: ADMIN_SERVICE_URI,
-  timeout: 10000, // 10 seconds timeout
+  timeout: 20000, // 20 seconds timeout
   headers: {
     "Content-Type": "application/json",
   },
@@ -58,7 +58,7 @@ const adminAPI = axios.create({
 
 const authAPI = axios.create({
   baseURL: AUTH_SERVICE_URI,
-  timeout: 10000,
+  timeout: 20000,
   headers: {
     "Content-Type": "application/json",
   },
@@ -66,7 +66,7 @@ const authAPI = axios.create({
 
 const bufferedReaderAPI = axios.create({
   baseURL: BUFFERED_READER_SERVICE_URI,
-  timeout: 10000,
+  timeout: 20000,
   headers: {
     "Content-Type": "application/json",
   },
@@ -74,7 +74,7 @@ const bufferedReaderAPI = axios.create({
 
 const csesAPI = axios.create({
   baseURL: CSES_SERVICE_URI,
-  timeout: 10000,
+  timeout: 20000,
   headers: {
     "Content-Type": "application/json",
   },
@@ -82,7 +82,7 @@ const csesAPI = axios.create({
 
 const sarcAPI = axios.create({
   baseURL: SARC_SERVICE_URI,
-  timeout: 10000,
+  timeout: 20000,
   headers: {
     "Content-Type": "application/json",
   },
@@ -130,27 +130,6 @@ const setupInterceptors = (instance) => {
     },
     (error) => Promise.reject(error)
   );
-
-  // This was intented to remove the token when the user is not authorized to access the endpoint
-  // instance.interceptors.response.use(
-  //   (response) => response,
-  //   (error) => {
-  //     // Don't automatically log out for publication-related errors
-  //     if (error.response && error.response.status === 401) {
-  //       // Only remove token for auth-related endpoints
-  //       // Exclude specific publication endpoints from automatic logout
-  //       const url = error.config?.url || "";
-  //       const isPublicationEndpoint = url.includes("/publication/");
-
-  //       if (!isPublicationEndpoint) {
-  //         const storage = getStorage();
-  //         storage.removeItem("token");
-  //         // Redirect to login page or show notification (if in browser)
-  //       }
-  //     }
-  //     return Promise.reject(error);
-  //   }
-  // );
 };
 
 // Setup interceptors for all instances
