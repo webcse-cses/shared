@@ -17,6 +17,7 @@ export const USER_ROUTING_KEYS = {
   USER_RESET: "user.reset",
   USER_RESET_PASSWORD: "user.reset.password",
   BULK_USER_REGISTER: "user.bulk.register",
+  USER_PROFILE_IMAGE_UPDATED: "user.updated.profile.image",
 };
 
 // If you need a default export as well:
