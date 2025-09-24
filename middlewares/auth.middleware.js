@@ -1,7 +1,9 @@
 import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+dotenv.config();
 
 const defaultConfig = {
-  secretKey: process.env.JWT_SECRET || "secret1234",
+  secretKey: process.env.JWT_SECRET,
   expiresIn: process.env.JWT_EXPIRES_IN || "1d",
   storageType: "local", // Default storage type
   tokenPrefix: "Bearer", // Default token prefix in Authorization header
@@ -57,7 +59,6 @@ export const verifyToken = (token) => {
 export const authenticate = (req, res, next) => {
   try {
     const authHeader = req.headers.authorization;
-    
 
     if (!authHeader || !authHeader.startsWith(`${authConfig.tokenPrefix} `)) {
       return res
@@ -66,10 +67,8 @@ export const authenticate = (req, res, next) => {
     }
 
     const token = authHeader.split(" ")[1];
-    
 
     const decoded = verifyToken(token);
-
 
     if (!decoded) {
       return res

@@ -2,17 +2,12 @@ import axios from "axios";
 
 // Helper function to get environment variables that works in both Node.js and Vite
 export const getEnv = (key, defaultValue) => {
-  // Check if we're in a Vite client environment
   if (typeof import.meta !== "undefined" && import.meta.env) {
     return import.meta.env[key] || defaultValue;
   }
-  // Otherwise use Node.js process.env
   else if (typeof process !== "undefined" && process.env) {
-    // In Node.js, load environment variables from .env file
     try {
-      // Dynamic import for dotenv (only in Node environment)
-      // This is a side effect to ensure dotenv is loaded in Node environments
-      if (!globalThis.__dotenvLoaded) {
+        if (!globalThis.__dotenvLoaded) {
         import("dotenv").then((dotenv) => dotenv.config());
         globalThis.__dotenvLoaded = true;
       }
@@ -21,7 +16,6 @@ export const getEnv = (key, defaultValue) => {
     }
     return process.env[key] || defaultValue;
   }
-  // Fallback
   return defaultValue;
 };
 
