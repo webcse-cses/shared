@@ -1,35 +1,27 @@
 services:
   rabbitmq:
-    image: rabbitmq:3-management
-    container_name: rabbitmq-service
-    ports:
-      - "5672:5672" # RabbitMQ default port
-      - "15672:15672" # Management interface
-    volumes:
-      - rabbitmq_data:/var/lib/rabbitmq
-    environment:
-      - RABBITMQ_DEFAULT_USER=admin
-      - RABBITMQ_DEFAULT_PASS=admin_password
-    networks:
-      - rabbitmq-network
+    image: rabbitmq:3.12-management
+    container_name: rabbitmq
     restart: unless-stopped
+    network_mode: host # Use host network for direct access
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: admin_password
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 1024M
+        reservations:
+          cpus: "0.5"
+          memory: 512M
     healthcheck:
       test: ["CMD", "rabbitmqctl", "status"]
-      interval: 30s
-      timeout: 10s
+      interval: 15s
       retries: 5
-
-networks:
-  rabbitmq-network:
-    driver: bridge
-
-volumes:
-  rabbitmq_data:
-    driver: local
-    driver_opts:
-      type: none
-      o: bind
-      device: /home/matrix/Desktop/DockerVolumes/
+      start_period: 30s
+      timeout: 10s
 
 
+      
 # docker compose -f "docker-compose.yaml" up -d
