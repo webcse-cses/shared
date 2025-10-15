@@ -41,6 +41,11 @@ const SARC_SERVICE_URI = getEnv(
   "http://localhost:5005/"
 );
 
+const AI_ML_SERVICE_URI = getEnv(
+  "VITE_APP_AI_ML_SERVICE_URI",
+  "http://localhost:8001/"
+);
+
 // Create Axios instances for each service
 const adminAPI = axios.create({
   baseURL: ADMIN_SERVICE_URI,
@@ -77,6 +82,15 @@ const csesAPI = axios.create({
 const sarcAPI = axios.create({
   baseURL: SARC_SERVICE_URI,
   timeout: 20000,
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
+
+
+const aiMlAPI = axios.create({
+  baseURL: AI_ML_SERVICE_URI,
+  timeout: 120000, // 2 minutes timeout for AI/ML tasks
   headers: {
     "Content-Type": "application/json",
   },
@@ -132,5 +146,6 @@ setupInterceptors(authAPI);
 setupInterceptors(bufferedReaderAPI);
 setupInterceptors(csesAPI);
 setupInterceptors(sarcAPI);
+setupInterceptors(aiMlAPI);
 
-export { adminAPI, authAPI, bufferedReaderAPI, csesAPI, sarcAPI };
+export { adminAPI, authAPI, bufferedReaderAPI, csesAPI, sarcAPI, aiMlAPI };

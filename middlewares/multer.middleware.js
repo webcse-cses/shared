@@ -1,31 +1,41 @@
+import path from "path";
 import multer from "multer";
-import fs from "fs";
+
+import { ensureStorageDirectory } from "../utils/storage.utils.js";
+
+const resolveSubfolder = (mimetype) => {
+  if (
+    mimetype ===
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
+    mimetype === "application/vnd.ms-excel"
+  ) {
+    return "excel";
+  }
+  if (mimetype && mimetype.startsWith("image/")) {
+    return "images";
+  }
+  if (mimetype === "application/pdf") {
+    return "pdf";
+  }
+  return "others";
+};
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    let folder = "";
-
-    if (
-      file.mimetype ===
-        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
-      file.mimetype === "application/vnd.ms-excel"
-    ) {
-      folder = "upload/excel";
-    } else if (file.mimetype.startsWith("image/")) {
-      folder = "upload/images";
-    } else if (file.mimetype === "application/pdf") {
-      folder = "upload/pdf";
-    } else {
-      folder = "upload/others";
-    }
-
-    if (!fs.existsSync(folder)) {
-      fs.mkdirSync(folder, { recursive: true });
-    }
-    cb(null, folder);
+    const subfolder = resolveSubfolder(file.mimetype);
+    file.storageSubdir = subfolder;
+    const targetDirectory = ensureStorageDirectory(subfolder);
+    cb(null, targetDirectory);
   },
   filename: (req, file, cb) => {
-    cb(null, `${Date.now()}-${file.originalname}`);
+    const safeName = `${Date.now()}-${file.originalname}`;
+    const subdir =
+      typeof file.storageSubdir === "string" ? file.storageSubdir : "";
+    const storageKey = subdir
+      ? path.posix.join(subdir.split(path.sep).join(path.posix.sep), safeName)
+      : safeName;
+    file.storageKey = storageKey;
+    cb(null, safeName);
   },
 });
 
