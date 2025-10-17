@@ -11,3 +11,10 @@ export const DegreeType = {
   PhD: "PhD",
   Other: "Other",
 };
+
+export const SIGType = {
+  AI: "AI-ML",
+  SYSTEMS: "Computer-Systems",
+  THEORY: "Theoretical-CS",
+  SECURITY: "Information-Security",
+}
