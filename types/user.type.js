@@ -17,4 +17,11 @@ export const SIGType = {
   SYSTEMS: "Computer-Systems",
   THEORY: "Theoretical-CS",
   SECURITY: "Information-Security",
-}
+};
+
+export const RoleType = {
+  LIFETIME_MEMBER: "Lifetime Member",
+  ANNUAL_MEMBER: "Annual Member",
+  MEMBER: "Member",
+  SECRETARY: "Secretary",
+};
