@@ -22,28 +22,28 @@ export const getEnv = (key, defaultValue) => {
 // Get the base URL for each service from environment variables
 const ADMIN_SERVICE_URI = getEnv(
   "VITE_APP_ADMIN_SERVICE_URI",
-  "http://localhost:5001/"
+  "REACT_APP_ADMIN_SERVICE_URI"
 );
 const AUTH_SERVICE_URI = getEnv(
   "VITE_APP_AUTH_SERVICE_URI",
-  "http://localhost:5002/"
+  "REACT_APP_AUTH_SERVICE_URI"
 );
 const BUFFERED_READER_SERVICE_URI = getEnv(
   "VITE_APP_BUFFERED_READER_SERVICE_URI",
-  "http://localhost:5003/"
+  "REACT_APP_BUFFERED_READER_SERVICE_URI"
 );
 const CSES_SERVICE_URI = getEnv(
   "VITE_APP_CSES_SERVICE_URI",
-  "http://localhost:5004/"
+  "REACT_APP_CSES_SERVICE_URI"
 );
 const SARC_SERVICE_URI = getEnv(
   "VITE_APP_SARC_SERVICE_URI",
-  "http://localhost:5005/"
+  "REACT_APP_SARC_SERVICE_URI"
 );
 
 const AI_ML_SERVICE_URI = getEnv(
   "VITE_APP_AI_ML_SERVICE_URI",
-  "http://localhost:8001/"
+  "REACT_APP_AI_ML_SERVICE_URI"
 );
 
 // Create Axios instances for each service
