@@ -4,10 +4,9 @@ import axios from "axios";
 export const getEnv = (key, defaultValue) => {
   if (typeof import.meta !== "undefined" && import.meta.env) {
     return import.meta.env[key] || defaultValue;
-  }
-  else if (typeof process !== "undefined" && process.env) {
+  } else if (typeof process !== "undefined" && process.env) {
     try {
-        if (!globalThis.__dotenvLoaded) {
+      if (!globalThis.__dotenvLoaded) {
         import("dotenv").then((dotenv) => dotenv.config());
         globalThis.__dotenvLoaded = true;
       }
@@ -86,7 +85,6 @@ const sarcAPI = axios.create({
     "Content-Type": "application/json",
   },
 });
-
 
 const aiMlAPI = axios.create({
   baseURL: AI_ML_SERVICE_URI,
