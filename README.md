@@ -402,7 +402,7 @@ npm start  # Starts the service (which uses shared modules)
 - **CSES** (`/CSES`): Uses Shared for messaging, auth, and axios
 - **SARC** (`/SARC`): Uses Shared for auth, uploads, and messaging
 - **Admin Portal** (`/admin-portal-cses`): Uses Shared for all middleware and RabbitMQ
-- **Auth System** (`/auth-system`): Uses Shared for JWT and user schemas
+- **Auth System** (`/auth`): Uses Shared for JWT and user schemas
 
 ---
 
