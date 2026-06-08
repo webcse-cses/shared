@@ -3,11 +3,16 @@
   "version": "1.0.2",
   "description": "",
   "main": "index.js",
+  "types": "index.d.ts",
   "exports": {
-    ".": "./index.js"
+    ".": {
+      "types": "./index.d.ts",
+      "default": "./index.js"
+    }
   },
   "files": [
     "index.js",
+    "index.d.ts",
     "axios/",
     "middlewares/",
     "utils/",
