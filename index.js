@@ -3,8 +3,10 @@ export * from "./axios/axiosInstance.js";
 export * from "./middlewares/auth.middleware.js";
 export * from "./middlewares/compressor.middleware.js";
 export * from "./middlewares/multer.middleware.js";
+export * from "./middlewares/permission.middleware.js";
 
 export * from "./utils/storage.utils.js";
+export * from "./utils/permission.utils.js";
 
 export { default as RabbitMQClient } from "./rabbitmq/rabbit.setup.js";
 export * from "./rabbitmq/award.configurations.js";
@@ -21,3 +23,4 @@ export * from "./types/events.type.js";
 export * from "./types/news.type.js";
 export * from "./types/referral.type.js";
 export * from "./types/user.type.js";
+export * from "./types/permission.type.js";

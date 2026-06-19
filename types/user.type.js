@@ -1,4 +1,5 @@
 export const UserType = {
+  SUPER_ADMIN: "SUPER_ADMIN",
   ADMIN: "ADMIN",
   PROFESSOR: "PROFESSOR",
   ALUMNI: "ALUMNI",

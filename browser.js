@@ -8,6 +8,7 @@ export * from "./types/events.type.js";
 export * from "./types/news.type.js";
 export * from "./types/referral.type.js";
 export * from "./types/user.type.js";
+export * from "./types/permission.type.js";
 
 export * from "./rabbitmq/award.configurations.js";
 export * from "./rabbitmq/event.configuration.js";

@@ -18,6 +18,10 @@ export declare function verifyToken(token: string): Record<string, unknown> | nu
 export declare function authenticate(req: any, res: any, next: any): void;
 export declare function requireRole(requiredRoles: string | string[]): (req: any, res: any, next: any) => void;
 
+// ─── Permission middleware ────────────────────────────────────────────────────
+
+export declare function requirePermission(requiredPermission: string): (req: any, res: any, next: any) => void;
+
 // ─── Compression middleware ───────────────────────────────────────────────────
 
 export declare function compressFile(filePath: string): Promise<string | null>;
@@ -33,6 +37,11 @@ export declare function getStorageRoot(): string;
 export declare function resolveStoragePath(...segments: string[]): string;
 export declare function ensureStorageDirectory(relativePath?: string): string;
 export declare function toStorageKey(absolutePath: string): string;
+
+// ─── Permission utils ─────────────────────────────────────────────────────────
+
+export declare function matchesPermission(grantedPermission: string, requiredPermission: string): boolean;
+export declare function hasPermission(userPermissions: string[], requiredPermission: string): boolean;
 
 // ─── RabbitMQ client ──────────────────────────────────────────────────────────
 
@@ -111,7 +120,30 @@ export declare const NewsType: {
 export declare const ReferralStatus: { PENDING: string; ACTIVE: string; REJECTED: string; EXPIRED: string };
 export declare const ReferralMode: { REMOTE: string; HYBRID: string; ONSITE: string };
 
-export declare const UserType: { ADMIN: string; PROFESSOR: string; ALUMNI: string; STUDENT: string };
+export declare const UserType: { SUPER_ADMIN: string; ADMIN: string; PROFESSOR: string; ALUMNI: string; STUDENT: string };
 export declare const DegreeType: { BTECH: string; MTech: string; PhD: string; Other: string };
 export declare const SIGType: { AI: string; SYSTEMS: string; THEORY: string; SECURITY: string };
 export declare const RoleType: { LIFETIME_MEMBER: string; ANNUAL_MEMBER: string; MEMBER: string; SECRETARY: string };
+
+export declare const Resource: {
+  USER: string;
+  MEMBER_ROLE: string;
+  PERMISSION: string;
+  EVENT: string;
+  NEWS: string;
+  AWARD: string;
+  INITIATIVE: string;
+  SIG: string;
+  REFERRAL: string;
+  PUBLICATION: string;
+  IMAGE: string;
+  ACHIEVEMENT: string;
+  SEMINAR: string;
+  COMMENT: string;
+  LIKE: string;
+  AUDIT_LOG: string;
+};
+export declare const Action: { CREATE: string; READ: string; UPDATE: string; DELETE: string };
+export declare const WILDCARD: string;
+export declare const FULL_ACCESS: string;
+export declare function buildPermission(resource: string, action: string): string;
