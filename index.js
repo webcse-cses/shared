@@ -19,6 +19,7 @@ export * from "./rabbitmq/sig.configuration.js";
 export * from "./rabbitmq/user.configuration.js";
 
 export * from "./types/awards.type.js";
+export * from "./types/fees.type.js";
 export * from "./types/events.type.js";
 export * from "./types/news.type.js";
 export * from "./types/referral.type.js";
